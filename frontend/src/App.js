@@ -12,7 +12,7 @@ import Login from './Components/Login/Login';
 import { useGlobalContext } from './context/globalContext';
 
 function App() {
-  const [active, setActive] = useState(1)
+  const [active, setActive] = useState(0)
 
   const global = useGlobalContext()
   console.log(global);
@@ -40,10 +40,10 @@ function App() {
     <AppStyled bg={bg} className="App">
       {orbMemo}
       <MainLayout>
-        <Navigation active={active} setActive={setActive} />
+     <Navigation active={active} setActive={setActive} />
         <main>
           {displayData()}
-        </main>
+        </main> 
       </MainLayout>
     </AppStyled>
   );
