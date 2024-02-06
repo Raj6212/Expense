@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { useNavigate, NavLink } from "react-router-dom";
+//import { useNavigate, NavLink } from "react-router-dom";
 import { useGlobalContext } from "../../context/globalContext";
-const Register = () => {
-  const navigate = useNavigate();
+const SignUp = () => {
+  //const navigate = useNavigate();
   
-  const {formErrors, setFormErrors,isSubmit, setIsSubmit} = useGlobalContext;
+  const {isSubmit, setIsSubmit} = useGlobalContext;
+  const[formErrors, setFormErrors] = useState({});
 
   const [user, setUserDetails] = useState({
-    fname: "",
-    lname: "",
+    username: "",
     email: "",
     password: "",
     cpassword: "",
@@ -27,11 +27,8 @@ const Register = () => {
   const validateForm = (values) => {
     const error = {};
     const regex = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    if (!values.fname) {
+    if (!values.username) {
       error.fname = "First Name is required";
-    }
-    if (!values.lname) {
-      error.lname = "Last Name is required";
     }
     if (!values.email) {
       error.email = "Email is required";
@@ -77,22 +74,13 @@ const Register = () => {
           <h1>Create your account</h1>
           <input
             type="text"
-            name="fname"
+            name="username"
             id="fname"
-            placeholder="First Name"
+            placeholder="Username"
             onChange={changeHandler}
-            value={user.fname}
+            value={user.username}
           />
-          <p className="error">{formErrors.fname}</p>
-          <input
-            type="text"
-            name="lname"
-            id="lname"
-            placeholder="Last Name"
-            onChange={changeHandler}
-            value={user.lname}
-          />
-          <p className="error">{formErrors.lname}</p>
+          <p className="error">{formErrors.username}</p>
           <input
             type="email"
             name="email"
@@ -124,7 +112,7 @@ const Register = () => {
             Register
           </button>
         </form>
-        <NavLink to="/login">Already registered? Login</NavLink>
+        {/* <NavLink to="/login">Already registered? Login</NavLink> */}
       </div>
     </SignUpStyled>
   );
@@ -132,7 +120,8 @@ const Register = () => {
 
 const SignUpStyled = styled.nav`
     .register {
-    width: 400px;
+    width: 450px;
+    height:550px;
     background: #fff;
     border: 1px solid #dddfe2;
     box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
@@ -146,10 +135,14 @@ const SignUpStyled = styled.nav`
     border: 2px solid lightgrey;
     outline: none;
     color: #1d2129;
-    margin: 2% 0;
+    margin: 3% 0;
     width: 90%;
     padding: 12px;
     font-size: 16px;
+   }
+
+   h1{
+    margin:2rem 0;
    }
 
    .button_common {
@@ -159,8 +152,8 @@ const SignUpStyled = styled.nav`
     border: none;
     font-size: 22px;
     border-radius: 15px;
-    margin: 1rem;
-    width: 90%;
+    margin: 2rem;
+    width: 70%;
 }
 
 .error {

@@ -7,7 +7,9 @@ import { useGlobalContext } from "../../context/globalContext";
 function Login({ setUserState }) {
   // const navigate = useNavigate();
 
-  const { formErrors, setFormErrors, isSubmit, setIsSubmit } = useGlobalContext;
+  const { isSubmit, setIsSubmit } = useGlobalContext;
+
+  const[formErrors,setFormErrors]=useState({});
 
   const [user, setUserDetails] = useState({
     email: "",
@@ -87,14 +89,18 @@ function Login({ setUserState }) {
 }
 
 const LoginStyled = styled.div`
-  width: 400px;
+  width: 450px;
   background: #fff;
   border: 1px solid #dddfe2;
   box-shadow: 0 2px 4px rgb(0 0 10 / 64%), 0 8px 16px rgb(0 10 0 / 34%);
   border-radius: 8px;
   padding: 1rem;
+  display:flex;
+  height:550px;
+  justify-content:center;
   align-items: center;
   text-align: center;
+
 
   input {
     border-radius: 20px;
@@ -102,9 +108,15 @@ const LoginStyled = styled.div`
     outline: none;
     color: #1d2129;
     margin: 2% 0;
-    width: 90%;
+    width: 100%;
     padding: 12px;
     font-size: 16px;
+    margin:5px 0;
+  }
+
+  h1{
+    margin: 2rem 0;
+    font-style:sans-serif;
   }
 
   .button_common {
@@ -114,7 +126,7 @@ const LoginStyled = styled.div`
     border: none;
     font-size: 22px;
     border-radius: 15px;
-    margin: 1rem;
+    margin: 3rem 0;
     width: 90%;
   }
 

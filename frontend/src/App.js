@@ -10,11 +10,12 @@ import Income from './Components/Income/Income'
 import Expenses from './Components/Expenses/Expenses';
 import Login from './Components/Login/Login';
 import { useGlobalContext } from './context/globalContext';
+import SignUp from './Components/SignUp/SignUp';
 
 function App() {
   const [active, setActive] = useState(0)
 
-  const global = useGlobalContext()
+  const {isSubmit} = useGlobalContext()
   console.log(global);
 
   const displayData = () => {
@@ -40,10 +41,13 @@ function App() {
     <AppStyled bg={bg} className="App">
       {orbMemo}
       <MainLayout>
-     <Navigation active={active} setActive={setActive} />
+      {isSubmit ? <>
+      <Navigation active={active} setActive={setActive} />
         <main>
           {displayData()}
         </main> 
+      </> : <SignUp/>}
+     
       </MainLayout>
     </AppStyled>
   );
