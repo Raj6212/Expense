@@ -13,7 +13,7 @@ import { useGlobalContext } from './context/globalContext';
 import SignUp from './Components/SignUp/SignUp';
 
 function App() {
-  const [active, setActive] = useState(0)
+  const [active, setActive] = useState(1)
 
   const {isSubmit} = useGlobalContext()
   console.log(global);
@@ -40,15 +40,17 @@ function App() {
   return (
     <AppStyled bg={bg} className="App">
       {orbMemo}
+      
+      {isSubmit ? 
       <MainLayout>
-      {isSubmit ? <>
       <Navigation active={active} setActive={setActive} />
         <main>
           {displayData()}
         </main> 
-      </> : <SignUp/>}
-     
       </MainLayout>
+      : <SignUp/>}
+     
+      
     </AppStyled>
   );
 }

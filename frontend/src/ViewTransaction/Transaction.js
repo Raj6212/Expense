@@ -15,7 +15,7 @@ const Transaction = () => {
         const { _id, title, amount, type, date, description } = item;
         console.log(dollar)
         return (
-          <>
+          <div className="List">
             <div key={_id} className="history-item">
               <div>
                 <h2>
@@ -50,7 +50,7 @@ const Transaction = () => {
                 </p>
               </div>
             </div>
-          </>
+          </div>
         );
       })}
     </TransactionStyled>
@@ -62,6 +62,7 @@ const TransactionStyled = styled.div`
   flex-direction: column;
   gap: 1rem;
   padding: 2rem;
+
   .history-item {
     background: #fcf6f9;
     border: 2px solid #ffffff;
@@ -83,6 +84,7 @@ const TransactionStyled = styled.div`
         opacity: 0.8;
       }
     }
+  
     .amount{
       font-size:1.5rem;
       font-weight:800;

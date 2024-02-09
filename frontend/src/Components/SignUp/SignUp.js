@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
-//import { useNavigate, NavLink } from "react-router-dom";
 import { useGlobalContext } from "../../context/globalContext";
+//import { useNavigate, NavLink } from "react-router-dom";
+
 const SignUp = () => {
   //const navigate = useNavigate();
+  const {isSubmit,setIsSubmit} = useGlobalContext()
   
-  const {isSubmit, setIsSubmit} = useGlobalContext;
-  const[formErrors, setFormErrors] = useState({});
+  const [formErrors, setFormErrors] = useState({});
 
   const [user, setUserDetails] = useState({
     username: "",
@@ -28,7 +29,7 @@ const SignUp = () => {
     const error = {};
     const regex = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i;
     if (!values.username) {
-      error.fname = "First Name is required";
+      error.username = "username is required";
     }
     if (!values.email) {
       error.email = "Email is required";
@@ -49,24 +50,71 @@ const SignUp = () => {
     }
     return error;
   };
-  const signupHandler = (e) => {
-    e.preventDefault();
-    setFormErrors(validateForm(user));
-    setIsSubmit(true);
+
+  const signupHandler = async(e) => {
+  e.preventDefault();
+  const errors = validateForm(user);
+  setFormErrors(errors);
+  setIsSubmit(Object.keys(errors).length === 0); // Set isSubmit to true if there are no errors
+   try {
+        axios.post("http://localhost:5000/register", {
+          username: user.username,
+          email: user.email,
+          password: user.password,
+        });
+        alert("Registration Successful");
+      } catch (error) {
+        console.log(error);
+      }
+};
+
+  // const signupHandler = async (e) => {
+  //   e.preventDefault();
+  //   setFormErrors(validateForm(user));
+  //   console.log(Object.keys(formErrors).length);
+  //   if (Object.keys(formErrors).length === 0 && isSubmit) {
+  //     console.log(user);
+  //     try {
+  //       axios.post("http://localhost:5000/register", {
+  //         username: user.username,
+  //         email: user.email,
+  //         password: user.password,
+  //       });
+  //       alert("Registration Successful");
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //     //   axios.post("http://localhost:9002/signup/", user).then((res) => {
+  //     //     alert(res.data.message);
+  //     //     navigate("/login", { replace: true });
+  //     //   });
+  //   }
+
+    //setIsSubmit(true);
     // if (!formErrors) {
     //   setIsSubmit(true);
     // }
-  };
+  //};
 
-  useEffect(() => {
-    if (Object.keys(formErrors).length === 0 && isSubmit) {
-      console.log(user);
-    //   axios.post("http://localhost:9002/signup/", user).then((res) => {
-    //     alert(res.data.message);
-    //     navigate("/login", { replace: true });
-    //   });
-    }
-  }, [formErrors]);
+  // useEffect(() => {
+  //   if (Object.keys(formErrors).length === 0 && isSubmit) {
+  //     console.log(user);
+  //     try {
+  //       axios.post("http://localhost:5000/register", {
+  //         username: user.username,
+  //         email: user.email,
+  //         password: user.password,
+  //       });
+  //       alert("Registration Successful");
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //     //   axios.post("http://localhost:9002/signup/", user).then((res) => {
+  //     //     alert(res.data.message);
+  //     //     navigate("/login", { replace: true });
+  //     //   });
+  //   }
+  // }, [formErrors]);
   return (
     <SignUpStyled>
       <div className="register">
@@ -119,50 +167,53 @@ const SignUp = () => {
 };
 
 const SignUpStyled = styled.nav`
-    .register {
+  .register {
     width: 450px;
-    height:550px;
+    display: flex;
+    justify-content: center;
+    height: 550px;
     background: #fff;
     border: 1px solid #dddfe2;
     box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
     border-radius: 8px;
     padding: 1rem;
+    margin: auto;
     align-items: center;
     text-align: center;
 
     input {
-    border-radius: 20px;
-    border: 2px solid lightgrey;
-    outline: none;
-    color: #1d2129;
-    margin: 3% 0;
-    width: 90%;
-    padding: 12px;
-    font-size: 16px;
-   }
+      border-radius: 20px;
+      border: 2px solid lightgrey;
+      outline: none;
+      color: #1d2129;
+      margin: 3% 0;
+      width: 90%;
+      padding: 12px;
+      font-size: 16px;
+    }
 
-   h1{
-    margin:2rem 0;
-   }
+    h1 {
+      margin: 2rem 0;
+    }
 
-   .button_common {
-    background-color: olivedrab;
-    color: white;
-    padding: 15px 30px;
-    border: none;
-    font-size: 22px;
-    border-radius: 15px;
-    margin: 2rem;
-    width: 70%;
-}
+    .button_common {
+      background-color: olivedrab;
+      color: white;
+      padding: 15px 30px;
+      border: none;
+      font-size: 22px;
+      border-radius: 15px;
+      margin: 2rem;
+      width: 70%;
+    }
 
-.error {
-    color: red;
-    text-align: left;
-    margin: auto;
-    font-size: 16px;
-    padding: 0px 1rem;
-}
-
-}`;
+    .error {
+      color: red;
+      text-align: left;
+      margin: auto;
+      font-size: 16px;
+      padding: 0px 1rem;
+    }
+  }
+`;
 export default SignUp;
