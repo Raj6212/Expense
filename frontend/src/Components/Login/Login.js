@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
+import { useCookies } from "react-cookie"; 
 import { useGlobalContext } from "../../context/globalContext";
-//import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 
 function Login({ setUserState }) {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  const { isSubmit, setIsSubmit } = useGlobalContext;
+  const [_, setCookies] = useCookies(["access_token"]);
 
+  const { isSubmit, setIsSubmit } = useGlobalContext();
   const[formErrors,setFormErrors]=useState({});
 
   const [user, setUserDetails] = useState({
-    email: "",
+    username: "",
     password: "",
   });
 
@@ -27,10 +29,8 @@ function Login({ setUserState }) {
   const validateForm = (values) => {
     const error = {};
     const regex = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    if (!values.email) {
-      error.email = "Email is required";
-    } else if (!regex.test(values.email)) {
-      error.email = "Please enter a valid email address";
+    if (!values.username) {
+      error.username = "username is required";
     }
     if (!values.password) {
       error.password = "Password is required";
@@ -38,38 +38,51 @@ function Login({ setUserState }) {
     return error;
   };
 
-  const loginHandler = (e) => {
+  const loginHandler = async(e) => {
     e.preventDefault();
-    setFormErrors(validateForm(user));
-    setIsSubmit(true);
-    // if (!formErrors) {
-    // }
+    const errors = validateForm(user);
+    setFormErrors(errors);
+    //setIsSubmit(true);
+    setIsSubmit(Object.keys(errors).length === 0); // Set isSubmit to true if there are no errors
+   try {
+        const result=await axios.post("http://localhost:5000/expense/login", {
+          username: user.username,
+          password: user.password
+        });
+      console.log(result.data)
+      setCookies("access_token", result.data.token);
+      window.localStorage.setItem("userID", result.data.userID);
+       navigate("/");
+
+      } catch (error) {
+        console.log(error);
+      }
   };
 
-  useEffect(() => {
-    if (Object.keys(formErrors).length === 0 && isSubmit) {
-      console.log(user);
-      // axios.post("http://localhost:9002/login", user).then((res) => {
-      //   alert(res.data.message);
-      //   setUserState(res.data.user);
-      //   navigate("/", { replace: true });
-      // });
-    }
-  }, [formErrors]);
+  // useEffect(() => {
+  //   if (Object.keys(formErrors).length === 0 && isSubmit) {
+  //     console.log(user);
+  //     // axios.post("http://localhost:9002/login", user).then((res) => {
+  //     //   alert(res.data.message);
+  //     //   setUserState(res.data.user);
+  //     //   navigate("/", { replace: true });
+  //     // });
+  //   }
+  // }, [formErrors]);
 
   return (
     <LoginStyled className="login">
       <form>
         <h1>Login</h1>
         <input
-          type="email"
-          name="email"
-          id="email"
-          placeholder="Email"
+          type="text"
+          name="username"
+          id="username"
+          placeholder="Username"
           onChange={changeHandler}
-          value={user.email}
+          value={user.username}
         />
-        <p className="error">{formErrors.email}</p>
+        <p className="error">{formErrors.username}</p>
         <input
           type="password"
           name="password"

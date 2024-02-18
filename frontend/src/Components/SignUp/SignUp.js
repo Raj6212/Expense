@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { useGlobalContext } from "../../context/globalContext";
-//import { useNavigate, NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   const {isSubmit,setIsSubmit} = useGlobalContext()
   
   const [formErrors, setFormErrors] = useState({});
@@ -57,12 +57,13 @@ const SignUp = () => {
   setFormErrors(errors);
   setIsSubmit(Object.keys(errors).length === 0); // Set isSubmit to true if there are no errors
    try {
-        axios.post("http://localhost:5000/register", {
+        await axios.post("http://localhost:5000/expense/register", {
           username: user.username,
           email: user.email,
           password: user.password,
         });
         alert("Registration Successful");
+        navigate("/login");
       } catch (error) {
         console.log(error);
       }
@@ -119,7 +120,7 @@ const SignUp = () => {
     <SignUpStyled>
       <div className="register">
         <form>
-          <h1>Create your account</h1>
+          <h1>Create Your Account</h1>
           <input
             type="text"
             name="username"
@@ -159,9 +160,11 @@ const SignUp = () => {
           <button className="button_common" onClick={signupHandler}>
             Register
           </button>
-        </form>
-        {/* <NavLink to="/login">Already registered? Login</NavLink> */}
+          <p>Already registered? <NavLink to="/login"> Login</NavLink> </p>
+        
+        </form> 
       </div>
+        
     </SignUpStyled>
   );
 };
@@ -187,13 +190,13 @@ const SignUpStyled = styled.nav`
       outline: none;
       color: #1d2129;
       margin: 3% 0;
-      width: 90%;
+      width: 100%;
       padding: 12px;
       font-size: 16px;
     }
 
     h1 {
-      margin: 2rem 0;
+      margin: 0 0 2rem 0;
     }
 
     .button_common {
@@ -203,7 +206,8 @@ const SignUpStyled = styled.nav`
       border: none;
       font-size: 22px;
       border-radius: 15px;
-      margin: 2rem;
+      margin: 2rem 0 1rem 0;
+      cursor:pointer;
       width: 70%;
     }
 

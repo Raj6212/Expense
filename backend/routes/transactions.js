@@ -1,18 +1,19 @@
-const { addExpense, getExpense, deleteExpense } = require('../controllers/expense');
+const { addExpense, getExpense, deleteExpense, } = require('../controllers/expense');
 const { addIncome, getIncomes, deleteIncome } = require('../controllers/income');
-const {addUser, getUser} = require('../controllers/User');
+const {addUser, getUser,verifyToken} = require('../controllers/User');
 
+// const  = require("../controllers/User");
 const router = require('express').Router();
 
 
-router.post('/add-income', addIncome)
-    .get('/get-incomes', getIncomes)
-    .delete('/delete-income/:id', deleteIncome)
-    .post('/add-expense', addExpense)
-    .get('/get-expenses', getExpense)
-    .delete('/delete-expense/:id', deleteExpense)
-    // .post('/login',getUser)
-    .post('/register',addUser)
-    .post('/login',getUser)
+router.post('/add-income', verifyToken, addIncome);
+router.get('/get-incomes', verifyToken, getIncomes);
+router.delete('/delete-income/:id', verifyToken, deleteIncome);
+router.post('/add-expense', verifyToken, addExpense);
+router.get('/get-expenses', verifyToken, getExpense);
+router.delete('/delete-expense/:id', verifyToken, deleteExpense);
+router.post('/register', addUser);
+router.post('/login', getUser);
+
 
 module.exports = router

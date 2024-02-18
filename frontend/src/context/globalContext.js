@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react"
 import axios from 'axios'
+import { useCookies } from "react-cookie";
 
 
 const BASE_URL = "http://localhost:5000/expense/";
@@ -14,6 +15,7 @@ export const GlobalProvider = ({children}) => {
     const [error, setError] = useState(null)
     const [formErrors, setFormErrors] = useState({});
     const [isSubmit, setIsSubmit] = useState(false);
+    const [cookies, _] = useCookies(["access_token"])
 
     //calculate incomes
     const addIncome = async (income) => {
@@ -25,15 +27,31 @@ export const GlobalProvider = ({children}) => {
     }
 
     const getIncomes = async () => {
-        const response = await axios.get(`${BASE_URL}get-incomes`)
-        setIncomes(response.data)
-        console.log(response.data)
+        try {
+            const response = await axios.get(`${BASE_URL}get-incomes`,{
+                headers: {
+           authorization: cookies.access_token 
+        },
+            });
+            setIncomes(response.data)
+        } catch (err) {
+            setError(err.response.data.message);
+        }
+        //console.log(response.data)
     }
 
     const deleteIncome = async (id) => {
-        const res  = await axios.delete(`${BASE_URL}delete-income/${id}`)
-        getIncomes()
+    try {
+      await axios.delete(`${BASE_URL}delete-income/${id}`, {
+        headers: {
+          authorization: cookies.access_token 
+        },
+      });
+      getIncomes();
+    } catch (err) {
+      setError(err.response.data.message);
     }
+  };
 
     const totalIncome = () => {
         let totalIncome = 0;
@@ -55,14 +73,30 @@ export const GlobalProvider = ({children}) => {
     }
 
     const getExpenses = async () => {
-        const response = await axios.get(`${BASE_URL}get-expenses`)
-        setExpenses(response.data)
-        console.log(response.data)
+         try {
+            const response = await axios.get(`${BASE_URL}get-expenses`,{
+                headers: {
+           authorization: cookies.access_token 
+        },
+            });
+            setExpenses(response.data)
+        } catch (err) {
+            setError(err.response.data.message);
+        }
+        //console.log(response.data)
     }
 
     const deleteExpense = async (id) => {
-        const res  = await axios.delete(`${BASE_URL}delete-expense/${id}`)
-        getExpenses()
+        try {
+      await axios.delete(`${BASE_URL}delete-expense/${id}`, {
+        headers: {
+          authorization: cookies.access_token 
+        },
+      });
+      getExpenses();
+    } catch (err) {
+      setError(err.response.data.message);
+    }
     }
 
     const totalExpenses = () => {
@@ -88,6 +122,10 @@ export const GlobalProvider = ({children}) => {
         return history
     }
 
+    const useGetUserID = () => {
+    return window.localStorage.getItem("userID");
+    };
+
 
     return (
         <GlobalContext.Provider value={{
@@ -108,7 +146,8 @@ export const GlobalProvider = ({children}) => {
             formErrors, 
             setFormErrors,
             isSubmit,
-            setIsSubmit
+            setIsSubmit,
+            useGetUserID
         }}>
             {children}
         </GlobalContext.Provider>
