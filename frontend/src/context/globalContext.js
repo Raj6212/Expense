@@ -8,7 +8,7 @@ const BASE_URL = "http://localhost:5000/expense/";
 
 const GlobalContext = React.createContext()
 
-export const GlobalProvider = ({children}) => {
+export const GlobalProvider = ({ children }) => {
 
     const [incomes, setIncomes] = useState([])
     const [expenses, setExpenses] = useState([])
@@ -19,19 +19,20 @@ export const GlobalProvider = ({children}) => {
 
     //calculate incomes
     const addIncome = async (income) => {
+        console.log("Income: ", income)
         const response = await axios.post(`${BASE_URL}add-income`, income)
-            .catch((err) =>{
+            .catch((err) => {
                 setError(err.response.data.message)
             })
-        getIncomes()
+        // getIncomes()
     }
 
     const getIncomes = async () => {
         try {
-            const response = await axios.get(`${BASE_URL}get-incomes`,{
+            const response = await axios.get(`${BASE_URL}get-incomes`, {
                 headers: {
-           authorization: cookies.access_token 
-        },
+                    authorization: cookies.access_token
+                },
             });
             setIncomes(response.data)
         } catch (err) {
@@ -41,21 +42,21 @@ export const GlobalProvider = ({children}) => {
     }
 
     const deleteIncome = async (id) => {
-    try {
-      await axios.delete(`${BASE_URL}delete-income/${id}`, {
-        headers: {
-          authorization: cookies.access_token 
-        },
-      });
-      getIncomes();
-    } catch (err) {
-      setError(err.response.data.message);
-    }
-  };
+        try {
+            await axios.delete(`${BASE_URL}delete-income/${id}`, {
+                headers: {
+                    authorization: cookies.access_token
+                },
+            });
+            getIncomes();
+        } catch (err) {
+            setError(err.response.data.message);
+        }
+    };
 
     const totalIncome = () => {
         let totalIncome = 0;
-        incomes.forEach((income) =>{
+        incomes.forEach((income) => {
             totalIncome = totalIncome + income.amount
         })
 
@@ -66,18 +67,18 @@ export const GlobalProvider = ({children}) => {
     //calculate incomes
     const addExpense = async (income) => {
         const response = await axios.post(`${BASE_URL}add-expense`, income)
-            .catch((err) =>{
+            .catch((err) => {
                 setError(err.response.data.message)
             })
         getExpenses()
     }
 
     const getExpenses = async () => {
-         try {
-            const response = await axios.get(`${BASE_URL}get-expenses`,{
+        try {
+            const response = await axios.get(`${BASE_URL}get-expenses`, {
                 headers: {
-           authorization: cookies.access_token 
-        },
+                    authorization: cookies.access_token
+                },
             });
             setExpenses(response.data)
         } catch (err) {
@@ -88,20 +89,20 @@ export const GlobalProvider = ({children}) => {
 
     const deleteExpense = async (id) => {
         try {
-      await axios.delete(`${BASE_URL}delete-expense/${id}`, {
-        headers: {
-          authorization: cookies.access_token 
-        },
-      });
-      getExpenses();
-    } catch (err) {
-      setError(err.response.data.message);
-    }
+            await axios.delete(`${BASE_URL}delete-expense/${id}`, {
+                headers: {
+                    authorization: cookies.access_token
+                },
+            });
+            getExpenses();
+        } catch (err) {
+            setError(err.response.data.message);
+        }
     }
 
     const totalExpenses = () => {
         let totalIncome = 0;
-        expenses.forEach((income) =>{
+        expenses.forEach((income) => {
             totalIncome = totalIncome + income.amount
         })
 
@@ -123,7 +124,7 @@ export const GlobalProvider = ({children}) => {
     }
 
     const useGetUserID = () => {
-    return window.localStorage.getItem("userID");
+        return window.localStorage.getItem("userID");
     };
 
 
@@ -143,7 +144,7 @@ export const GlobalProvider = ({children}) => {
             transactionHistory,
             error,
             setError,
-            formErrors, 
+            formErrors,
             setFormErrors,
             isSubmit,
             setIsSubmit,
@@ -154,6 +155,6 @@ export const GlobalProvider = ({children}) => {
     )
 }
 
-export const useGlobalContext = () =>{
+export const useGlobalContext = () => {
     return useContext(GlobalContext)
 }

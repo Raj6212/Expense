@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { useCookies } from "react-cookie"; 
+import { useCookies } from "react-cookie";
 import { useGlobalContext } from "../../context/globalContext";
 import { useNavigate, NavLink } from "react-router-dom";
 
@@ -11,7 +11,7 @@ function Login({ setUserState }) {
   const [_, setCookies] = useCookies(["access_token"]);
 
   const { isSubmit, setIsSubmit } = useGlobalContext();
-  const[formErrors,setFormErrors]=useState({});
+  const [formErrors, setFormErrors] = useState({});
 
   const [user, setUserDetails] = useState({
     username: "",
@@ -38,25 +38,26 @@ function Login({ setUserState }) {
     return error;
   };
 
-  const loginHandler = async(e) => {
+  const loginHandler = async (e) => {
     e.preventDefault();
     const errors = validateForm(user);
     setFormErrors(errors);
     //setIsSubmit(true);
     setIsSubmit(Object.keys(errors).length === 0); // Set isSubmit to true if there are no errors
-   try {
-        const result=await axios.post("http://localhost:5000/expense/login", {
-          username: user.username,
-          password: user.password
-        });
+    try {
+      const result = await axios.post("http://localhost:5000/expense/login", {
+        username: user.username,
+        password: user.password
+      });
       console.log(result.data)
       setCookies("access_token", result.data.token);
       window.localStorage.setItem("userID", result.data.userID);
-       navigate("/");
+      console.log("UserId:   ", window.localStorage.getItem("userId"))
+      navigate("/");
 
-      } catch (error) {
-        console.log(error);
-      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // useEffect(() => {

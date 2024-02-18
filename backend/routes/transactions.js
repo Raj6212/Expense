@@ -1,12 +1,12 @@
 const { addExpense, getExpense, deleteExpense, } = require('../controllers/expense');
 const { addIncome, getIncomes, deleteIncome } = require('../controllers/income');
-const {addUser, getUser,verifyToken} = require('../controllers/User');
+const { addUser, getUser, verifyToken } = require('../controllers/User');
 
 // const  = require("../controllers/User");
 const router = require('express').Router();
 
 
-router.post('/add-income', verifyToken, addIncome);
+router.post('/add-income', addIncome);
 router.get('/get-incomes', verifyToken, getIncomes);
 router.delete('/delete-income/:id', verifyToken, deleteIncome);
 router.post('/add-expense', verifyToken, addExpense);
