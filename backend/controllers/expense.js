@@ -1,8 +1,8 @@
 const ExpenseSchema = require("../models/ExpenseModel")
-
+const jwt = require("jsonwebtoken")
 
 exports.addExpense = async (req, res) => {
-    const { UserID,title, amount, category, description, date } = req.body
+    const { UserID, title, amount, category, description, date } = req.body
     const expense = ExpenseSchema({
         title,
         amount,
@@ -30,10 +30,14 @@ exports.addExpense = async (req, res) => {
 }
 
 exports.getExpense = async (req, res) => {
-    console.log("cookies:", req.cookies)
-    const {UserID} = req.body;
+    const token = req.cookies.access_token
+    const UserID = jwt.verify(token, "sec_key")
+    console.log(UserID)
+    if (!UserID)
+        return res.status(401).json({ message: "No User ID found" })
     try {
-        const expenses = await ExpenseSchema.find({ userOwner: UserID }).sort({ createdAt: -1 })
+        const expenses = await ExpenseSchema.find({ userOwner: UserID.id }).sort({ createdAt: -1 })
+        console.log(expenses)
         res.status(200).json(expenses)
     } catch (error) {
         res.status(500).json({ message: 'Server Error' })

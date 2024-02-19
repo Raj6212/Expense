@@ -12,7 +12,11 @@ const PORT = 5000
 
 //middlewares
 app.use(express.json())
-app.use(cors())
+const corsConfig = {
+    origin: true,
+    credentials: true,
+};
+app.use(cors(corsConfig))
 
 
 //routes
