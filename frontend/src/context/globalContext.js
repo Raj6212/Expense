@@ -80,7 +80,9 @@ export const GlobalProvider = ({ children }) => {
                 headers: {
                     authorization: cookies.access_token
                 },
+                withCredentials:true,
             });
+            console.log(response.data);
             setExpenses(response.data)
         } catch (err) {
             setError(err.response.data.message);

@@ -30,6 +30,7 @@ exports.addExpense = async (req, res) => {
 }
 
 exports.getExpense = async (req, res) => {
+    console.log("cookies:", req.cookies)
     const {UserID} = req.body;
     try {
         const expenses = await ExpenseSchema.find({ userOwner: UserID }).sort({ createdAt: -1 })
