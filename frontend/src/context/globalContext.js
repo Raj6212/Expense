@@ -65,12 +65,13 @@ export const GlobalProvider = ({ children }) => {
 
 
     //calculate incomes
-    const addExpense = async (income) => {
-        const response = await axios.post(`${BASE_URL}add-expense`, income)
+    const addExpense = async (expense) => {
+        console.log("Expense: ",expense)
+        const response = await axios.post(`${BASE_URL}add-expense`, expense)
             .catch((err) => {
                 setError(err.response.data.message)
             })
-        getExpenses()
+        //getExpenses()
     }
 
     const getExpenses = async () => {

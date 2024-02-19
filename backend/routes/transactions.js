@@ -7,11 +7,11 @@ const router = require('express').Router();
 
 
 router.post('/add-income', addIncome);
-router.get('/get-incomes', verifyToken, getIncomes);
-router.delete('/delete-income/:id', verifyToken, deleteIncome);
-router.post('/add-expense', verifyToken, addExpense);
-router.get('/get-expenses', verifyToken, getExpense);
-router.delete('/delete-expense/:id', verifyToken, deleteExpense);
+router.get('/get-incomes',  getIncomes);
+router.delete('/delete-income/:id',  deleteIncome);
+router.post('/add-expense',  addExpense);
+router.get('/get-expenses',  getExpense);
+router.delete('/delete-expense/:id',  deleteExpense);
 router.post('/register', addUser);
 router.post('/login', getUser);
 
