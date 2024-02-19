@@ -33,6 +33,7 @@ export const GlobalProvider = ({ children }) => {
                 headers: {
                     authorization: cookies.access_token
                 },
+                withCredentials: true
             });
             setIncomes(response.data)
         } catch (err) {
@@ -47,6 +48,7 @@ export const GlobalProvider = ({ children }) => {
                 headers: {
                     authorization: cookies.access_token
                 },
+                withCredentials: true
             });
             getIncomes();
         } catch (err) {
@@ -65,12 +67,13 @@ export const GlobalProvider = ({ children }) => {
 
 
     //calculate incomes
-    const addExpense = async (income) => {
-        const response = await axios.post(`${BASE_URL}add-expense`, income)
+    const addExpense = async (expense) => {
+        console.log("Expense: ", expense)
+        const response = await axios.post(`${BASE_URL}add-expense`, expense)
             .catch((err) => {
                 setError(err.response.data.message)
             })
-        getExpenses()
+        //getExpenses()
     }
 
     const getExpenses = async () => {
@@ -79,7 +82,9 @@ export const GlobalProvider = ({ children }) => {
                 headers: {
                     authorization: cookies.access_token
                 },
+                withCredentials: true,
             });
+            console.log(response.data);
             setExpenses(response.data)
         } catch (err) {
             setError(err.response.data.message);

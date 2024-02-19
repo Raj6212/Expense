@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
@@ -9,7 +9,9 @@ import { plus } from '../../utils/Icons';
 
 function ExpenseForm() {
     const {addExpense, error, setError} = useGlobalContext()
+    
     const [inputState, setInputState] = useState({
+        UserID:'',
         title: '',
         amount: '',
         date: '',
@@ -19,6 +21,11 @@ function ExpenseForm() {
 
     const { title, amount, date, category,description } = inputState;
 
+     useEffect(() => {
+        const userId = localStorage.getItem("userID")
+        setInputState({ ...inputState, UserID: userId })
+    }, [])
+
     const handleInput = name => e => {
         setInputState({...inputState, [name]: e.target.value})
         setError('')
@@ -26,8 +33,10 @@ function ExpenseForm() {
 
     const handleSubmit = e => {
         e.preventDefault()
+        console.log(inputState)
         addExpense(inputState)
         setInputState({
+            ...inputState,
             title: '',
             amount: '',
             date: '',
