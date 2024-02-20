@@ -11,11 +11,19 @@ function App() {
   // Hello world
   return (
     <AppStyled bg={bg} className="App">
+<<<<<<< HEAD
       <Routes>
         <Route path="/Signup" element={<SignUp />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/" element={<Maincomp />} />
       </Routes>
+=======
+     <Routes>
+       <Route path="/Signup" element={<SignUp/>}/>
+       <Route path="/Login" element={<Login/>}/>
+       <Route exact path="/" element={<Maincomp/>}/>
+     </Routes>
+>>>>>>> 6c1fc76241922d2a932a0a9346ca2fe6738550da
     </AppStyled>
   );
 }
