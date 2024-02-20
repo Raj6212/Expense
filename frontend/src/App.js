@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react'
+import React, { useState, useMemo } from 'react'
 import styled from "styled-components";
 import bg from './img/bg.png'
 import SignUp from './Components/SignUp/SignUp';
@@ -7,15 +7,15 @@ import { Route, Routes } from 'react-router-dom';
 import Login from './Components/Login/Login';
 
 function App() {
- 
 
+  // Hello world
   return (
     <AppStyled bg={bg} className="App">
-     <Routes>
-       <Route path="/Signup" element={<SignUp/>}/>
-       <Route path="/Login" element={<Login/>}/>
-       <Route path="/" element={<Maincomp/>}/>
-     </Routes>
+      <Routes>
+        <Route path="/Signup" element={<SignUp />} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/" element={<Maincomp />} />
+      </Routes>
     </AppStyled>
   );
 }
