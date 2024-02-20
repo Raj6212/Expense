@@ -8,8 +8,9 @@ import { plus } from '../../utils/Icons';
 
 
 function ExpenseForm() {
-    const {addExpense, error, setError} = useGlobalContext()
+    const {getExpenses,totalBalance, addExpense, error, setError} = useGlobalContext()
     
+    const [check,setCheck] = useState(false)
     const [inputState, setInputState] = useState({
         UserID:'',
         title: '',
@@ -31,9 +32,18 @@ function ExpenseForm() {
         setError('')
     }
 
+
     const handleSubmit = e => {
         e.preventDefault()
         console.log(inputState)
+        const total = totalBalance()
+        console.log(inputState.amount,total)
+        if(inputState.amount>total)
+        {
+            console.log(inputState.amount,total)
+            setCheck(true)
+            return
+        }
         addExpense(inputState)
         setInputState({
             ...inputState,
@@ -43,6 +53,7 @@ function ExpenseForm() {
             category: '',
             description: '',
         })
+        getExpenses()
     }
 
     return (
@@ -59,12 +70,13 @@ function ExpenseForm() {
             </div>
             <div className="input-control">
                 <input value={amount}  
-                    type="text" 
+                    type="number" 
                     name={'amount'} 
                     placeholder={'Expense Amount'}
                     onChange={handleInput('amount')} 
                 />
             </div>
+            {check && <p style={{color:"red"}}>Amount cannot be more than TotalBalance</p>}           
             <div className="input-control">
                 <DatePicker 
                     id='date'

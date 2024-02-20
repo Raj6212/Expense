@@ -52,7 +52,9 @@ function Login({ setUserState }) {
       console.log(result.data)
       setCookies("access_token", result.data.token);
       window.localStorage.setItem("userID", result.data.userID);
+      window.localStorage.setItem("username",result.data.username)
       console.log("UserId:   ", window.localStorage.getItem("userId"))
+      console.log("Username:   ", window.localStorage.getItem("username"))
       navigate("/");
 
     } catch (error) {
@@ -72,7 +74,8 @@ function Login({ setUserState }) {
   // }, [formErrors]);
 
   return (
-    <LoginStyled className="login">
+    <LoginStyled className="loginOuterDiv">
+      <div className="login">
       <form>
         <h1>Login</h1>
         <input
@@ -97,23 +100,31 @@ function Login({ setUserState }) {
           Login
         </button>
       </form>
+      </div>
       {/* <NavLink to="/signup">Not yet registered? Register Now</NavLink> */}
     </LoginStyled>
   );
 }
 
 const LoginStyled = styled.div`
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  
+  .login {
   width: 450px;
   background: #fff;
   border: 1px solid #dddfe2;
   box-shadow: 0 2px 4px rgb(0 0 10 / 64%), 0 8px 16px rgb(0 10 0 / 34%);
   border-radius: 8px;
-  padding: 1rem;
-  display:flex;
-  height:550px;
+  padding: 3rem;
+  height:500px;
   justify-content:center;
   align-items: center;
   text-align: center;
+  }
 
 
   input {
@@ -121,27 +132,27 @@ const LoginStyled = styled.div`
     border: 2px solid lightgrey;
     outline: none;
     color: #1d2129;
-    margin: 2% 0;
-    width: 100%;
+    margin: 15px 0;
+    width: 90%;
     padding: 12px;
-    font-size: 16px;
-    margin:5px 0;
+    font-size: 20px;
   }
 
   h1{
-    margin: 2rem 0;
+    margin: 1rem 0 2rem 0;
     font-style:sans-serif;
   }
 
   .button_common {
     background-color: olivedrab;
     color: white;
-    padding: 15px 30px;
+    padding: 10px 30px;
     border: none;
-    font-size: 22px;
-    border-radius: 15px;
-    margin: 3rem 0;
-    width: 90%;
+    font-size: 25px;
+    border-radius: 33px;
+    margin: 2rem 0;
+    width: 70%;
+    cursor: pointer;
   }
 
   .error {

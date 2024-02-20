@@ -9,10 +9,12 @@ import { plus } from '../../utils/Icons';
 
 function Form() {
     const { addIncome, getIncomes, error, setError } = useGlobalContext()
+
     useEffect(() => {
         const userId = localStorage.getItem("userID")
         setInputState({ ...inputState, UserID: userId })
     }, [])
+
     const [inputState, setInputState] = useState({
         UserID: '',
         title: '',
@@ -42,6 +44,7 @@ function Form() {
             category: '',
             description: '',
         })
+        getIncomes()
     }
 
     return (
@@ -58,7 +61,7 @@ function Form() {
             </div>
             <div className="input-control">
                 <input value={amount}
-                    type="text"
+                    type="number"
                     name={'amount'}
                     placeholder={'Salary Amount'}
                     onChange={handleInput('amount')}

@@ -119,6 +119,7 @@ const SignUp = () => {
   // }, [formErrors]);
   return (
     <SignUpStyled>
+    <div className="signup">
       <div className="register">
         <form>
           <h1>Create Your Account</h1>
@@ -165,12 +166,20 @@ const SignUp = () => {
         
         </form> 
       </div>
+      </div>
         
     </SignUpStyled>
   );
 };
 
 const SignUpStyled = styled.nav`
+
+  .signup{
+    display:flex;
+    justify-content:center;
+    align-item:center;
+    height:100vh
+  }
   .register {
     width: 450px;
     display: flex;

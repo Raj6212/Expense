@@ -1,5 +1,8 @@
+//const  useGlobalContext  = require("../../frontend/src/context/globalContext")
 const ExpenseSchema = require("../models/ExpenseModel")
 const jwt = require("jsonwebtoken")
+
+// const {totalbalance} = useGlobalContext()
 
 exports.addExpense = async (req, res) => {
     const { UserID, title, amount, category, description, date } = req.body

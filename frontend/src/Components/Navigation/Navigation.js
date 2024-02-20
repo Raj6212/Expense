@@ -13,6 +13,7 @@ function Navigation({active, setActive}) {
     const{ totalBalance} = useGlobalContext()
     const navigate = useNavigate();
     const [cookies,setCookies] = useCookies(["access_token"])
+    const name = window.localStorage.getItem("username")
 
     const logout = () => {
        setCookies("access_token", "");
@@ -25,8 +26,8 @@ function Navigation({active, setActive}) {
             <div className="user-con">
                 <img src={avatar} alt="" />
                 <div className="text">
-                    <h2>Mike</h2>
-                    <p>${totalBalance()}</p>
+                    <h2 style={{textTransform:"capitalize" , color:"rgba(34, 34, 96, 1)"}}>{name}</h2>
+                    <p style={{color:"green"}}>${totalBalance()}</p>
                 </div>
             </div>
             <ul className="menu-items">
@@ -83,14 +84,24 @@ const NavStyled = styled.nav`
             padding: .2rem;
             box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.06);
         }
-        h2{
-            color: rgba(34, 34, 96, 1);
-        }
-        p{
-            color: rgba(34, 34, 96, .6);
-        }
+        // .text{
+        //     h2{
+        //     color: rgba(34, 34, 96, 1);
+        //     text-transform:"capitalize";
+        // }
+        // p{  
+        //     color:"green"
+        // }
+        // }
+        
     }
-
+    // .text>h2{
+    //     color: rgba(34, 34, 96, 1);
+    //     text-transform:"capitalize";
+    // }
+    // .text>p{
+    //     color:"green"
+    // }
     .menu-items{
         flex: 1;
         display: flex;
