@@ -42,6 +42,7 @@ function Form() {
             category: '',
             description: '',
         })
+        getIncomes()
     }
 
     return (
