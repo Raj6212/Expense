@@ -11,7 +11,7 @@ function Expenses() {
 
     useEffect(() =>{
         getExpenses()
-    }, [])
+    }, [expenses])
     return (
         <ExpenseStyled>
             <InnerLayout>
@@ -34,7 +34,7 @@ function Expenses() {
                                 date={date} 
                                 type={type}
                                 category={category} 
-                                indicatorColor="var(--color-green)"
+                                indicatorColor="var(--color-delete: #FF0000)"
                                 deleteItem={deleteExpense}
                             />
                         })}

@@ -3,8 +3,22 @@ import styled from 'styled-components'
 import avatar from '../../img/avatar.png'
 import { signout } from '../../utils/Icons'
 import { menuItems } from '../../utils/menuItems'
+import { useGlobalContext } from '../../context/globalContext'
+import Button from '../Button/Button'
+import { useCookies } from 'react-cookie'
+import { useNavigate } from 'react-router-dom'
+import Login from '../Login/Login'
 
 function Navigation({active, setActive}) {
+    const{ totalBalance} = useGlobalContext()
+    const navigate = useNavigate();
+    const [cookies,setCookies] = useCookies(["access_token"])
+
+    const logout = () => {
+       setCookies("access_token", "");
+       window.localStorage.clear();
+       navigate("/login");
+  };
     
     return (
         <NavStyled>
@@ -12,7 +26,7 @@ function Navigation({active, setActive}) {
                 <img src={avatar} alt="" />
                 <div className="text">
                     <h2>Mike</h2>
-                    <p>Your Money</p>
+                    <p>${totalBalance()}</p>
                 </div>
             </div>
             <ul className="menu-items">
@@ -27,10 +41,16 @@ function Navigation({active, setActive}) {
                     </li>
                 })}
             </ul>
-            <div className="bottom-nav">
-                <li>
-                    {signout} Sign Out
-                </li>
+           <div className="submit-btn">
+                <Button
+                    name={'SignOut'}
+                    icon={signout}
+                    bPad={'.8rem 1.6rem'}
+                    bRad={'30px'}
+                    bg={'var(--color-delete'}
+                    color={'#fff'}
+                    onClick={logout}
+                />
             </div>
         </NavStyled>
     )
@@ -90,6 +110,15 @@ const NavStyled = styled.nav`
                 color: rgba(34, 34, 96, 0.6);
                 font-size: 1.4rem;
                 transition: all .4s ease-in-out;
+            }
+        }
+    }
+
+    .submit-btn{
+        button{
+            box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
+            &:hover{
+                background: var(--color-green) !important;
             }
         }
     }

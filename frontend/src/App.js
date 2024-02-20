@@ -14,7 +14,7 @@ function App() {
      <Routes>
        <Route path="/Signup" element={<SignUp/>}/>
        <Route path="/Login" element={<Login/>}/>
-       <Route path="/" element={<Maincomp/>}/>
+       <Route exact path="/" element={<Maincomp/>}/>
      </Routes>
     </AppStyled>
   );

@@ -65,6 +65,7 @@ const SignUp = () => {
         alert("Registration Successful");
         navigate("/login");
       } catch (error) {
+        alert("Username already exists")
         console.log(error);
       }
 };
