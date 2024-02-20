@@ -55,7 +55,7 @@ function Login({ setUserState }) {
       window.localStorage.setItem("username",result.data.username)
       console.log("UserId:   ", window.localStorage.getItem("userId"))
       console.log("Username:   ", window.localStorage.getItem("username"))
-      navigate("/");
+      navigate("/Dashboard");
 
     } catch (error) {
       console.log(error);

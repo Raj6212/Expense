@@ -7,7 +7,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 const SignUp = () => {
   const navigate = useNavigate();
   const {isSubmit,setIsSubmit} = useGlobalContext()
-  
+  var flag=false;
   const [formErrors, setFormErrors] = useState({});
 
   const [user, setUserDetails] = useState({
@@ -55,19 +55,24 @@ const SignUp = () => {
   e.preventDefault();
   const errors = validateForm(user);
   setFormErrors(errors);
-  setIsSubmit(Object.keys(errors).length === 0); // Set isSubmit to true if there are no errors
-   try {
+  flag=Object.keys(errors).length === 0; // Set isSubmit to true if there are no errors
+  if(flag)
+  {
+     try {
         await axios.post("http://localhost:5000/expense/register", {
           username: user.username,
           email: user.email,
           password: user.password,
         });
-        alert("Registration Successful");
         navigate("/login");
       } catch (error) {
         alert("Username already exists")
         console.log(error);
       }
+  }
+  else{
+    console.log("Validate form")
+  }
 };
 
   // const signupHandler = async (e) => {
